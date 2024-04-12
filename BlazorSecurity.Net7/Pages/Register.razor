@@ -1,0 +1,27 @@
+﻿@page "/register"
+@inject HttpClient Http
+@using BlazorSecurity.Net7.Models
+
+<h3>Registar Usuario</h3>
+
+<input placeholder="Nombre del usuario" @bind="user.NombreUsuario" /><br/>
+<input placeholder="Usuario" @bind="user.NombreCuenta" /><br/>
+<input placeholder="Intrduzca la contraseña aqui" @bind="user.Password" />
+<br />
+
+<button class="btn btn-primary" @onclick="Registrar">Registrar Usuario</button>
+<br />
+
+<h3>@mensaje</h3>
+
+
+@code {
+	UserDTO user = new UserDTO();
+	string mensaje = "";
+
+	async Task Registrar()
+	{
+		var result = await Http.PostAsJsonAsync("api/Usuario/Registrar", user);
+		mensaje = await result.Content.ReadAsStringAsync();
+	}
+}
